@@ -203,7 +203,7 @@ func dateFormat(e1, e2 book) string {
 func format(i int, e book) string {
 	str := fmt.Sprintf("%d. %s\n", i, e.Text)
 	if e.Note != "" {
-		str += fmt.Sprintf("    * %s\n", e.Note)
+		str += fmt.Sprintf("    * %s\n", strings.ReplaceAll(e.Note, "\n", " "))
 	}
 	return str
 }

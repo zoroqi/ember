@@ -28,7 +28,7 @@ func isBlockStart(s string) bool {
 }
 
 // 我也不知道为啥有会有这种情况
-func cleanLine(s string) string {
+func removeSpecialCharset(s string) string {
 	s = strings.TrimSpace(s)
 	return strings.ReplaceAll(s, "\ufeff", "")
 }
@@ -59,20 +59,22 @@ func ParseBlocks(clippingsText io.Reader) (blocks []Block) {
 			break
 		}
 		lineNum++
-		line := cleanLine(string(lbs))
+		line := removeSpecialCharset(string(lbs))
 		if isBlockStart(line) {
 			blocks = append(blocks, clip)
 			clip = Block{num: lineNum}
 			i = 0
 			continue
 		}
-		switch i {
-		case 0:
+		switch {
+		case i == 0:
 			clip.Book = line
-		case 1:
+		case i == 1:
 			clip.Index = line[2:]
-		case 3:
+		case i == 3:
 			clip.Text = line
+		case i > 3:
+			clip.Text = clip.Text + "\n" + line
 		}
 		i++
 	}

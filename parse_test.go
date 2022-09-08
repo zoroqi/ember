@@ -45,6 +45,11 @@ func TestParseClippings(t *testing.T) {
 		LocationStart: 0, LocationEnd: 6, Text: "test4", Type: ClippingNote,
 		Time: mustTimeParser("2022-06-07 09:25:11"),
 	})
+	testData = append(testData, Clipping{
+		Book:          book,
+		LocationStart: 0, LocationEnd: 6, Text: "test5\nnewline", Type: ClippingNote,
+		Time: mustTimeParser("2022-06-07 09:25:11"),
+	})
 
 	for i, c := range clips {
 		if !reflect.DeepEqual(c, testData[i]) {
